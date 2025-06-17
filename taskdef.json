@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:642451520987:task-definition/WebAppTaskDefinition:2",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:642451520987:task-definition/WebAppTaskDefinition:3",
     "containerDefinitions": [
         {
             "name": "web-app-container",
@@ -38,7 +38,7 @@
     "family": "WebAppTaskDefinition",
     "executionRoleArn": "arn:aws:iam::642451520987:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 3,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
