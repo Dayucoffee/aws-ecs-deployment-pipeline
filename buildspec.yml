@@ -5,20 +5,20 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - REPOSITORY_URI=642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:latest .
-      - docker tag 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:latest 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Pushing the Docker images...
-      - docker push 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:latest
-      - docker push 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '{"ImageURI":"%s"}' 642451520987.dkr.ecr.us-east-1.amazonaws.com/web-app-repo:$IMAGE_TAG > imageDetail.json
+      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
 
 artifacts:
   files:
